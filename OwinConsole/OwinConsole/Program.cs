@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace OwinConsole
 {
     using System.IO;
+    using System.Web.Http;
     using Microsoft.Owin.Hosting;
     using Owin;
     using AppFunc = Func<IDictionary<string, object>, Task>;
@@ -33,7 +34,40 @@ namespace OwinConsole
             // To add a default welcome page
             // app.UseWelcomePage();
 
+            // Other way to write middleware
+            //app.Use(async (environment, next) =>
+            //{
+            //   foreach (var env in environment.Environment)
+            //   {
+            //       Console.WriteLine("{0}:{1}", env.Key, env.Value);
+            //   }
+
+            //   await next();
+            //});
+
+            app.Use(async (environment, next) =>
+            {
+                Console.WriteLine("Request Path: " + environment.Request.Path);
+
+                await next();
+
+                Console.WriteLine("Response Status: " + environment.Response.StatusCode);
+            });
+
+            ConfigureWebApi(app);
+
             app.UseHelloWorld();
+        }
+
+        private void ConfigureWebApi(IAppBuilder app)
+        {
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute(
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new { id = RouteParameter.Optional }
+                );
+            app.UseWebApi(config);
         }
     }
 
