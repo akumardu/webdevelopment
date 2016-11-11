@@ -16,6 +16,8 @@ namespace Identity.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public string FavoriteBook { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -29,5 +31,11 @@ namespace Identity.Models
         {
             return new ApplicationDbContext();
         }
+    }
+
+    public class Movie
+    {
+        public int Id { get; set; }
+        public int Title { get; set; }
     }
 }
