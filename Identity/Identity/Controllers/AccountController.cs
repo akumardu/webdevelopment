@@ -322,6 +322,7 @@ namespace Identity.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
+            var testResult = AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie);
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
