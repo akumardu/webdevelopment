@@ -4,12 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using webapi.Models;
 
 namespace webapi.Controllers
 {
+    [EnableCors("*","*","GET")]
+    [Authorize]
     public class PatientsController : ApiController
     {
         IMongoCollection<Patient> patients;
@@ -26,16 +29,29 @@ namespace webapi.Controllers
             return patients.Find(filte).ToList();
         }
 
-        public HttpResponseMessage Get(string id)
+        public IHttpActionResult Get(string id)
         {
             var filter = Builders<Patient>.Filter.Eq("_id", ObjectId.Parse(id));
             var patient = patients.Find(filter).ToList();
             if(patient == null || patient.Count == 0)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Patient not found");
+                return NotFound();
             }
 
-            return Request.CreateResponse(patient.First());
+            return Ok(patient);
+        }
+
+        [Route("api/patients/{id}/medication")]
+        public IHttpActionResult GetMedications(string id)
+        {
+            var filter = Builders<Patient>.Filter.Eq("_id", ObjectId.Parse(id));
+            var patient = patients.Find(filter).ToList();
+            if (patient == null || patient.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(patient.First().Medications);
         }
     }
 }
