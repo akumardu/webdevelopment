@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using Books.Web.Models;
@@ -12,6 +13,12 @@ namespace Books.Web.DataContexts
         public IdentityDb()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDefaultSchema("identity");
+            base.OnModelCreating(modelBuilder);
         }
 
         public static IdentityDb Create()
