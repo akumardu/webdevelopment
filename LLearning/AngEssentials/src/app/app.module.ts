@@ -9,7 +9,6 @@ import { CategoryListPipe } from './category-list.pipe';
 import { lookupListToken, lookupLists } from './providers';
 import { MockXHRBackend } from './mock-xhr-backend';
 import { routing } from './app.routing';
-import { NewItemModule } from './new-item/new-item.module';
 
 // value providers - these are different from media-item.service providers
 // const lookupLists = {
@@ -20,8 +19,7 @@ import { NewItemModule } from './new-item/new-item.module';
     imports: [
         BrowserModule,
         HttpClientModule,
-        routing,
-        NewItemModule
+        routing
     ],
     declarations: [
         AppComponent,
