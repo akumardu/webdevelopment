@@ -1,4 +1,4 @@
-<nav>
+<!-- <nav>
   <a (click)="getMediaItems('')">
     <img src="assets/04.png" class="icon" />
   </a>
@@ -8,7 +8,7 @@
   <a (click)="getMediaItems('Series')">
     <img src="assets/02.png" class="icon" />
   </a>
-</nav>
+</nav> -->
 <header
   [ngClass]="{
     'medium-movies': medium === 'Movies',
@@ -29,3 +29,8 @@
     }"
   ></mw-media-item>
 </section>
+<footer>
+  <a routerLink="/add">
+    <img src="assets/01.png" class="icon">
+  </a>
+</footer>
